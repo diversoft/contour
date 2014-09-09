@@ -1,0 +1,22 @@
+{
+  "name": "contour",
+  "version": "0.0.0",
+  "description": "等値線描画",
+  "main": "contour.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yukity/contour.git"
+  },
+  "author": "yukity",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yukity/contour/issues"
+  },
+  "homepage": "https://github.com/yukity/contour"
+}

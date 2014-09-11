@@ -3,11 +3,19 @@ module.exports = (grunt) ->
     pkg = grunt.file.readJSON 'package.json'
 
     grunt.initConfig
-        coffee:
-            compile:
-                files:
-                    'dest/contour.js': ['src/contour.coffee']
-                    'dest/test-contour.js': ['test/test-contour.coffee']
+        watch:
+            coffee:
+                files: ['src/**/*.coffee']
+                tasks: ['coffee']
 
+        coffee:
+            files:
+                expand: true
+                cwd: "src/"
+                src: ["**/*.coffee"]
+                dest: "dest/"
+                ext: ".js"
+
+    grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
-    grunt.registerTask 'default', 'coffee'
+    grunt.registerTask 'default', ['coffee', 'watch']

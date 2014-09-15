@@ -17,6 +17,10 @@
       this.value = value;
     }
 
+    Point2D.prototype.toString = function() {
+      return "Point2D(" + this.x + ", " + this.y + ", " + this.value + ")";
+    };
+
     return Point2D;
 
   })();

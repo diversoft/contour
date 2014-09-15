@@ -7,3 +7,5 @@ class @Contour.Point2D
         @x = x
         @y = y
         @value = value
+    toString: () ->
+        "Point2D(#{@x}, #{@y}, #{@value})"

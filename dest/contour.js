@@ -1,5 +1,14 @@
 (function() {
-  this.Contour = {};
+  this.Contour = (function() {
+    function Contour() {}
+
+    Contour.prototype.constryctor = function(matrix) {
+      return this.matrix = matrix;
+    };
+
+    return Contour;
+
+  })();
 
   this.Contour.Point2D = (function() {
     function Point2D(x, y, value) {

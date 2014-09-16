@@ -1,6 +1,11 @@
 class @Contour
     constructor: (matrix) ->
-        @matrix = matrix
+        @matrix = []
+        for row, i in matrix
+            r = []
+            for value, j in row
+                r.push(new Contour.Point2D(i, j, value))
+            @matrix.push(r)
 
 class @Contour.Point2D
     constructor: (x, y, value) ->
@@ -26,3 +31,39 @@ class @Contour.Side2D
             (n * @point1.y + m * @point2.y) / (m + n),
             dividingValue
         )
+
+class @Contour.Square2D
+    constructor: (leftTop, rightTop, leftBottom, rightBottom) ->
+        @leftTop = leftTop
+        @rightTop = rightTop
+        @leftBottom = leftBottom
+        @rightBottom = rightBottom
+        @topSide = new Contour.Side2D(@leftTop, @rightTop)
+        @rightSide = new Contour.Side2D(@rightTop, @rightBottom)
+        @bottomSide = new Contour.Side2D(@rightBottom, @leftBottom)
+        @leftSide = new Contour.Side2D(@leftBottom, @leftTop)
+    partialContour: (dividingValue) ->
+        internals = []
+        sides = [@topSide, @bottomSide, @leftSide, @rightSide]
+        for side in sides
+            internal = side.internallyDividingPoint(dividingValue)
+            if (internal)
+                internals.push internal
+        if (internals.length == 0)
+            return []
+        if (internals.length == 2)
+            return [
+                new Contour.Path2D(internals[0], internals[1])
+            ]
+        if (internals.length == 4)
+            return [
+                new Contour.Path2D(internals[0], internals[1])
+                new Contour.Path2D(internals[2], internals[3])
+            ]
+
+class @Contour.Path2D
+    constructor: (start, end) ->
+        @start = start
+        @end = end
+    toString: () ->
+        "Path(#{@start}, #{@end})"

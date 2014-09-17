@@ -85,3 +85,18 @@ test "Contour.new([[1,2],[3,4], [5,6]])", (assert) ->
     actual = contour.matrix
     assert.equal actual.length, matrix.length, "行数が等しい"
     assert.equal actual[0].length, matrix[0].length, "列数が等しい"
+
+test "Contour#getContours", (assert) ->
+    matrix = [
+        [1, 1, 1],
+        [1, 2, 1],
+        [1, 2, 2]
+    ]
+    contour = new Contour(matrix)
+    contours = contour.getContours([1.5, 2.3])
+    actual1 = contours["1.5"].length
+    expected1 = 4
+    assert.equal actual1, expected1, "contour 1.5 has 4 lines"
+    actual2 = contours["2.3"].length
+    expected2 = 0
+    assert.equal actual2, expected2, "contour 2.3 has no lines"

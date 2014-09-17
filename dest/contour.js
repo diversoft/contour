@@ -1,18 +1,44 @@
 (function() {
   this.Contour = (function() {
     function Contour(matrix) {
-      var i, j, r, row, value, _i, _j, _len, _len1;
+      var i, j, point, r, row, value, _i, _j, _len, _len1;
       this.matrix = [];
       for (i = _i = 0, _len = matrix.length; _i < _len; i = ++_i) {
         row = matrix[i];
         r = [];
         for (j = _j = 0, _len1 = row.length; _j < _len1; j = ++_j) {
           value = row[j];
-          r.push(new Contour.Point2D(i, j, value));
+          point = new Contour.Point2D(i, j, value);
+          r.push(point);
         }
         this.matrix.push(r);
       }
     }
+
+    Contour.prototype.getContours = function(values) {
+      var contours, i, j, key, path, square, value, _i, _j, _k, _l, _len, _len1, _ref, _ref1, _ref2;
+      if (this.matrix.length < 2 || this.matrix[0].length < 2) {
+        return null;
+      }
+      contours = {};
+      for (_i = 0, _len = values.length; _i < _len; _i++) {
+        value = values[_i];
+        key = value.toString();
+        contours[key] = [];
+        for (i = _j = 0, _ref = this.matrix.length - 2; 0 <= _ref ? _j <= _ref : _j >= _ref; i = 0 <= _ref ? ++_j : --_j) {
+          for (j = _k = 0, _ref1 = this.matrix[0].length - 2; 0 <= _ref1 ? _k <= _ref1 : _k >= _ref1; j = 0 <= _ref1 ? ++_k : --_k) {
+            square = new Contour.Square2D(this.matrix[i][j], this.matrix[i][j + 1], this.matrix[i + 1][j], this.matrix[i + 1][j + 1]);
+            _ref2 = square.partialContour(value);
+            for (_l = 0, _len1 = _ref2.length; _l < _len1; _l++) {
+              path = _ref2[_l];
+              contours[key].push(path);
+            }
+          }
+        }
+      }
+      console.log(contours);
+      return contours;
+    };
 
     return Contour;
 

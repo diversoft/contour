@@ -4,8 +4,28 @@ class @Contour
         for row, i in matrix
             r = []
             for value, j in row
-                r.push(new Contour.Point2D(i, j, value))
+                point = new Contour.Point2D(i, j, value)
+                r.push(point)
             @matrix.push(r)
+    getContours: (values) ->
+        if (@matrix.length < 2 || @matrix[0].length < 2)
+            return null
+        contours = {}
+        for value in values
+            key = value.toString()
+            contours[key] = []
+            for i in [0..(@matrix.length-2)]
+                for j in [0..(@matrix[0].length-2)]
+                    square = new Contour.Square2D(
+                        @matrix[i][j],
+                        @matrix[i][j+1],
+                        @matrix[i+1][j],
+                        @matrix[i+1][j+1]
+                    )
+                    for path in square.partialContour(value)
+                        contours[key].push(path)
+        console.log(contours)
+        contours
 
 class @Contour.Point2D
     constructor: (x, y, value) ->

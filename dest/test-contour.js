@@ -78,4 +78,17 @@
     return assert.equal(actual[0].length, matrix[0].length, "列数が等しい");
   });
 
+  test("Contour#getContours", function(assert) {
+    var actual1, actual2, contour, contours, expected1, expected2, matrix;
+    matrix = [[1, 1, 1], [1, 2, 1], [1, 2, 2]];
+    contour = new Contour(matrix);
+    contours = contour.getContours([1.5, 2.3]);
+    actual1 = contours["1.5"].length;
+    expected1 = 4;
+    assert.equal(actual1, expected1, "contour 1.5 has 4 lines");
+    actual2 = contours["2.3"].length;
+    expected2 = 0;
+    return assert.equal(actual2, expected2, "contour 2.3 has no lines");
+  });
+
 }).call(this);

@@ -24,7 +24,6 @@ class @Contour
                     )
                     for path in square.partialContour(value)
                         contours[key].push(path)
-        console.log(contours)
         contours
 
 class @Contour.Point2D

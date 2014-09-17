@@ -36,7 +36,6 @@
           }
         }
       }
-      console.log(contours);
       return contours;
     };
 

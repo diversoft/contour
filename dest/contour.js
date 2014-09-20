@@ -103,7 +103,7 @@
     }
 
     Side2D.prototype.internallyDividingPoint = function(dividingValue) {
-      var m, n;
+      var m, mn, n;
       if (dividingValue > this.point1.value && dividingValue > this.point2.value) {
         return null;
       }
@@ -112,7 +112,11 @@
       }
       m = Math.abs(this.point1.value - dividingValue);
       n = Math.abs(this.point2.value - dividingValue);
-      return new Contour.Point2D((n * this.point1.x + m * this.point2.x) / (m + n), (n * this.point1.y + m * this.point2.y) / (m + n), dividingValue);
+      mn = m + n;
+      if (mn === 0) {
+        return null;
+      }
+      return new Contour.Point2D((n * this.point1.x + m * this.point2.x) / mn, (n * this.point1.y + m * this.point2.y) / mn, dividingValue);
     };
 
     return Side2D;
@@ -164,8 +168,11 @@
         return [new Contour.Path2D(internals[0], internals[2])];
       } else if (internals[0].equals(internals[2])) {
         return [new Contour.Path2D(internals[0], internals[1])];
+      } else if (internals[1].equals(internals[2])) {
+        return [new Contour.Path2D(internals[0], internals[2])];
       } else {
-        return [new Contour.Path2D(internals[1], internals[2])];
+        console.log(internals);
+        return [];
       }
     };
 

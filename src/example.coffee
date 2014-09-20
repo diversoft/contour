@@ -51,7 +51,7 @@ line = d3.svg.line()
     .x((d) -> OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT)
     .y((d) -> OFFSET_TOP + d.row() * HWIGHT_PER_POINT)
 
-Contour.draw matrix, [1, 2, 3, 4, 5, 6], (path, value) ->
+Contour.draw matrix, [1, 2, 3, 4, 5, 6, 7, 8], (path, value) ->
     svg.append("path")
         .attr(
             "d": () -> line([path.start, path.end])

@@ -68,7 +68,7 @@
     return OFFSET_TOP + d.row() * HWIGHT_PER_POINT;
   });
 
-  Contour.draw(matrix, [1, 2, 3, 4, 5, 6], function(path, value) {
+  Contour.draw(matrix, [1, 2, 3, 4, 5, 6, 7, 8], function(path, value) {
     return svg.append("path").attr({
       "d": function() {
         return line([path.start, path.end]);

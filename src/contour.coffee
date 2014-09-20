@@ -63,9 +63,12 @@ class @Contour.Side2D
             return null
         m = Math.abs(@point1.value - dividingValue)
         n = Math.abs(@point2.value - dividingValue)
+        mn = m + n
+        if mn == 0
+            return null
         new Contour.Point2D(
-            (n * @point1.x + m * @point2.x) / (m + n),
-            (n * @point1.y + m * @point2.y) / (m + n),
+            (n * @point1.x + m * @point2.x) / mn,
+            (n * @point1.y + m * @point2.y) / mn,
             dividingValue
         )
 
@@ -107,8 +110,11 @@ class @Contour.Square2D
             [new Contour.Path2D(internals[0], internals[2])]
         else if (internals[0].equals(internals[2]))
             [new Contour.Path2D(internals[0], internals[1])]
+        else if (internals[1].equals(internals[2]))
+            [new Contour.Path2D(internals[0], internals[2])]
         else
-            [new Contour.Path2D(internals[1], internals[2])]
+            console.log(internals)
+            []
 
 class @Contour.Path2D
     constructor: (start, end) ->

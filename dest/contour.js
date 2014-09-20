@@ -50,6 +50,14 @@
       this.value = value;
     }
 
+    Point2D.prototype.row = function() {
+      return this.x;
+    };
+
+    Point2D.prototype.colmn = function() {
+      return this.y;
+    };
+
     Point2D.prototype.toString = function() {
       return "Point2D(" + this.x + ", " + this.y + ", " + this.value + ")";
     };

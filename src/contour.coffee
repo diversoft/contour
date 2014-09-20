@@ -31,6 +31,10 @@ class @Contour.Point2D
         @x = x
         @y = y
         @value = value
+    row: () ->
+        @x
+    colmn: () ->
+        @y
     toString: () ->
         "Point2D(#{@x}, #{@y}, #{@value})"
 

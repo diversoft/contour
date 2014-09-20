@@ -29,8 +29,8 @@ svg.selectAll("circle")
     .enter()
     .append("circle")
     .attr(
-        cx: (d) -> (OFFSET_LEFT + d.y * WIDTH_PER_POINT)
-        cy: (d) -> (OFFSET_TOP + d.x * HWIGHT_PER_POINT)
+        cx: (d) -> (OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT)
+        cy: (d) -> (OFFSET_TOP + d.row() * HWIGHT_PER_POINT)
         r: "5px"
     )
 
@@ -38,8 +38,8 @@ svg.selectAll("circle")
 等値線の描画
 ###
 line = d3.svg.line()
-    .x((d) -> OFFSET_LEFT + d.y * WIDTH_PER_POINT)
-    .y((d) -> OFFSET_TOP + d.x * HWIGHT_PER_POINT)
+    .x((d) -> OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT)
+    .y((d) -> OFFSET_TOP + d.row() * HWIGHT_PER_POINT)
 contours = contour.getContours([5.1])
 contour5 = contours["5.1"]
 svg.selectAll("path")
@@ -48,5 +48,5 @@ svg.selectAll("path")
     .append("path")
     .attr(
         "d": (c) -> line([c.start, c.end])
-        "stroke": "black"
+        "stroke": "red"
     )

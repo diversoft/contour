@@ -37,10 +37,10 @@
 
   svg.selectAll("circle").data(points).enter().append("circle").attr({
     cx: function(d) {
-      return OFFSET_LEFT + d.y * WIDTH_PER_POINT;
+      return OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT;
     },
     cy: function(d) {
-      return OFFSET_TOP + d.x * HWIGHT_PER_POINT;
+      return OFFSET_TOP + d.row() * HWIGHT_PER_POINT;
     },
     r: "5px"
   });
@@ -51,9 +51,9 @@
    */
 
   line = d3.svg.line().x(function(d) {
-    return OFFSET_LEFT + d.y * WIDTH_PER_POINT;
+    return OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT;
   }).y(function(d) {
-    return OFFSET_TOP + d.x * HWIGHT_PER_POINT;
+    return OFFSET_TOP + d.row() * HWIGHT_PER_POINT;
   });
 
   contours = contour.getContours([5.1]);
@@ -64,7 +64,7 @@
     "d": function(c) {
       return line([c.start, c.end]);
     },
-    "stroke": "black"
+    "stroke": "red"
   });
 
 }).call(this);

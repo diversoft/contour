@@ -1,5 +1,5 @@
 (function() {
-  var HEIGHT, HWIGHT_PER_POINT, OFFSET_BOTTOM, OFFSET_LEFT, OFFSET_RIGTH, OFFSET_TOP, WIDTH, WIDTH_PER_POINT, contour, contour5, contours, line, matrix, points, svg;
+  var HEIGHT, HWIGHT_PER_POINT, OFFSET_BOTTOM, OFFSET_LEFT, OFFSET_RIGTH, OFFSET_TOP, WIDTH, WIDTH_PER_POINT, contour, line, matrix, points, svg;
 
   matrix = [[0, 1, 1, 3, 2], [1, 3, 6, 6, 3], [3, 7, 9, 7, 3], [2, 7, 8, 6, 2], [1, 2, 3, 4, 3]];
 
@@ -56,15 +56,21 @@
     return OFFSET_TOP + d.row() * HWIGHT_PER_POINT;
   });
 
-  contours = contour.getContours([5.1]);
-
-  contour5 = contours["5.1"];
-
-  svg.selectAll("path").data(contour5).enter().append("path").attr({
-    "d": function(c) {
-      return line([c.start, c.end]);
-    },
-    "stroke": "red"
+  Contour.draw(matrix, [1, 2, 3, 4, 5, 6, 7], function(path, value) {
+    return svg.append("path").attr({
+      "d": function() {
+        return line([path.start, path.end]);
+      },
+      "stroke": function() {
+        if (value > 4) {
+          return "red";
+        } else if (value > 2) {
+          return "green";
+        } else {
+          return "blue";
+        }
+      }
+    });
   });
 
 }).call(this);

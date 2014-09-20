@@ -40,13 +40,16 @@ svg.selectAll("circle")
 line = d3.svg.line()
     .x((d) -> OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT)
     .y((d) -> OFFSET_TOP + d.row() * HWIGHT_PER_POINT)
-contours = contour.getContours([5.1])
-contour5 = contours["5.1"]
-svg.selectAll("path")
-    .data(contour5)
-    .enter()
-    .append("path")
-    .attr(
-        "d": (c) -> line([c.start, c.end])
-        "stroke": "red"
-    )
+
+Contour.draw matrix, [1, 2, 3, 4, 5, 6, 7], (path, value) ->
+    svg.append("path")
+        .attr(
+            "d": () -> line([path.start, path.end])
+            "stroke": () ->
+                if (value > 4)
+                    "red"
+                else if (value > 2)
+                    "green"
+                else
+                    "blue"
+        )

@@ -16,7 +16,7 @@
     }
 
     Contour.prototype.getContours = function(values) {
-      var contours, i, j, key, path, square, value, _i, _j, _k, _l, _len, _len1, _ref, _ref1, _ref2;
+      var contours, i, j, key, partial, path, square, value, _i, _j, _k, _l, _len, _len1, _ref, _ref1;
       if (this.matrix.length < 2 || this.matrix[0].length < 2) {
         return null;
       }
@@ -28,10 +28,12 @@
         for (i = _j = 0, _ref = this.matrix.length - 2; 0 <= _ref ? _j <= _ref : _j >= _ref; i = 0 <= _ref ? ++_j : --_j) {
           for (j = _k = 0, _ref1 = this.matrix[0].length - 2; 0 <= _ref1 ? _k <= _ref1 : _k >= _ref1; j = 0 <= _ref1 ? ++_k : --_k) {
             square = new Contour.Square2D(this.matrix[i][j], this.matrix[i][j + 1], this.matrix[i + 1][j], this.matrix[i + 1][j + 1]);
-            _ref2 = square.partialContour(value);
-            for (_l = 0, _len1 = _ref2.length; _l < _len1; _l++) {
-              path = _ref2[_l];
-              contours[key].push(path);
+            partial = square.partialContour(value);
+            if (partial) {
+              for (_l = 0, _len1 = partial.length; _l < _len1; _l++) {
+                path = partial[_l];
+                contours[key].push(path);
+              }
             }
           }
         }
@@ -42,6 +44,27 @@
     return Contour;
 
   })();
+
+  this.Contour.draw = function(matrix, values, drawFunc) {
+    var c, cnt, contours, path, v, _i, _len, _results;
+    cnt = new Contour(matrix);
+    contours = cnt.getContours(values);
+    _results = [];
+    for (_i = 0, _len = values.length; _i < _len; _i++) {
+      v = values[_i];
+      c = contours[v.toString()];
+      _results.push((function() {
+        var _j, _len1, _results1;
+        _results1 = [];
+        for (_j = 0, _len1 = c.length; _j < _len1; _j++) {
+          path = c[_j];
+          _results1.push(drawFunc(path, v));
+        }
+        return _results1;
+      })());
+    }
+    return _results;
+  };
 
   this.Contour.Point2D = (function() {
     function Point2D(x, y, value) {

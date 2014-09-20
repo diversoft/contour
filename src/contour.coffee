@@ -22,9 +22,19 @@ class @Contour
                         @matrix[i+1][j],
                         @matrix[i+1][j+1]
                     )
-                    for path in square.partialContour(value)
-                        contours[key].push(path)
+                    partial = square.partialContour(value)
+                    if partial
+                        for path in partial
+                            contours[key].push(path)
         contours
+
+@Contour.draw = (matrix, values, drawFunc) ->
+    cnt = new Contour(matrix)
+    contours = cnt.getContours(values)
+    for v in values
+        c = contours[v.toString()]
+        for path in c
+            drawFunc(path, v)
 
 class @Contour.Point2D
     constructor: (x, y, value) ->

@@ -47,6 +47,10 @@ class @Contour.Point2D
         @y
     toString: () ->
         "Point2D(#{@x}, #{@y}, #{@value})"
+    equals: (that) ->
+        if (@x != that.x || @y != that.y)
+            return false
+        true
 
 class @Contour.Side2D
     constructor: (point1, point2) ->
@@ -82,17 +86,29 @@ class @Contour.Square2D
             internal = side.internallyDividingPoint(dividingValue)
             if (internal)
                 internals.push internal
-        if (internals.length == 0)
-            return []
+        partial = []
         if (internals.length == 2)
-            return [
+            partial = [
                 new Contour.Path2D(internals[0], internals[1])
             ]
-        if (internals.length == 4)
-            return [
+        else if (internals.length == 4)
+            partial = [
                 new Contour.Path2D(internals[0], internals[1])
                 new Contour.Path2D(internals[2], internals[3])
             ]
+        else if (internals.length == 3)
+            partial = @ifHasThree(internals)
+        for side in sides
+            if (side.point1.value == dividingValue && side.point2.value == dividingValue)
+                partial.push(new Contour.Path2D(side.point1, side.point2))
+        partial
+    ifHasThree: (internals) ->
+        if (internals[0].equals(internals[1]))
+            [new Contour.Path2D(internals[0], internals[2])]
+        else if (internals[0].equals(internals[2]))
+            [new Contour.Path2D(internals[0], internals[1])]
+        else
+            [new Contour.Path2D(internals[1], internals[2])]
 
 class @Contour.Path2D
     constructor: (start, end) ->

@@ -85,6 +85,13 @@
       return "Point2D(" + this.x + ", " + this.y + ", " + this.value + ")";
     };
 
+    Point2D.prototype.equals = function(that) {
+      if (this.x !== that.x || this.y !== that.y) {
+        return false;
+      }
+      return true;
+    };
+
     return Point2D;
 
   })();
@@ -125,7 +132,7 @@
     }
 
     Square2D.prototype.partialContour = function(dividingValue) {
-      var internal, internals, side, sides, _i, _len;
+      var internal, internals, partial, side, sides, _i, _j, _len, _len1;
       internals = [];
       sides = [this.topSide, this.bottomSide, this.leftSide, this.rightSide];
       for (_i = 0, _len = sides.length; _i < _len; _i++) {
@@ -135,14 +142,30 @@
           internals.push(internal);
         }
       }
-      if (internals.length === 0) {
-        return [];
-      }
+      partial = [];
       if (internals.length === 2) {
-        return [new Contour.Path2D(internals[0], internals[1])];
+        partial = [new Contour.Path2D(internals[0], internals[1])];
+      } else if (internals.length === 4) {
+        partial = [new Contour.Path2D(internals[0], internals[1]), new Contour.Path2D(internals[2], internals[3])];
+      } else if (internals.length === 3) {
+        partial = this.ifHasThree(internals);
       }
-      if (internals.length === 4) {
-        return [new Contour.Path2D(internals[0], internals[1]), new Contour.Path2D(internals[2], internals[3])];
+      for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
+        side = sides[_j];
+        if (side.point1.value === dividingValue && side.point2.value === dividingValue) {
+          partial.push(new Contour.Path2D(side.point1, side.point2));
+        }
+      }
+      return partial;
+    };
+
+    Square2D.prototype.ifHasThree = function(internals) {
+      if (internals[0].equals(internals[1])) {
+        return [new Contour.Path2D(internals[0], internals[2])];
+      } else if (internals[0].equals(internals[2])) {
+        return [new Contour.Path2D(internals[0], internals[1])];
+      } else {
+        return [new Contour.Path2D(internals[1], internals[2])];
       }
     };
 

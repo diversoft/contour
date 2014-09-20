@@ -10,13 +10,13 @@
   D3.jsによる格子の描画
    */
 
-  OFFSET_TOP = 10;
+  OFFSET_TOP = 20;
 
-  OFFSET_BOTTOM = 10;
+  OFFSET_BOTTOM = 20;
 
-  OFFSET_LEFT = 10;
+  OFFSET_LEFT = 20;
 
-  OFFSET_RIGTH = 10;
+  OFFSET_RIGTH = 20;
 
   WIDTH = 500;
 
@@ -45,6 +45,18 @@
     r: "5px"
   });
 
+  svg.selectAll("text").data(points).enter().append("text").text(function(d) {
+    return d.value;
+  }).attr({
+    "x": function(d) {
+      return OFFSET_LEFT + d.colmn() * WIDTH_PER_POINT + 4;
+    },
+    "y": function(d) {
+      return OFFSET_TOP + d.row() * HWIGHT_PER_POINT - 4;
+    },
+    "size": 4
+  });
+
 
   /*
   等値線の描画
@@ -56,7 +68,7 @@
     return OFFSET_TOP + d.row() * HWIGHT_PER_POINT;
   });
 
-  Contour.draw(matrix, [1, 2, 3, 4, 5, 6, 7], function(path, value) {
+  Contour.draw(matrix, [1, 2, 3, 4, 5, 6], function(path, value) {
     return svg.append("path").attr({
       "d": function() {
         return line([path.start, path.end]);
